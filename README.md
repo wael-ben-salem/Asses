@@ -1,5 +1,3 @@
-# Korean Tutor
-
 ## Prompt
 
 *For best experience, please view this file in the browser*.
@@ -8,22 +6,25 @@ You will be creating a full-stack application that helps an English speaker to p
 
 For the purposes of this application, a "phrase" consists of a word or short sentence rendered three ways:
 
- - in the Korean alphabet, [Hangul](https://en.wikipedia.org/wiki/Hangul),
- - in English
- - in its [Romanized](https://en.wikipedia.org/wiki/Romanization_of_Korean) form, provided solely as an approximate pronunciation aid to non-Korean speakers.
+- in the Korean alphabet, [Hangul](https://en.wikipedia.org/wiki/Hangul),
+- in English
+- in its [Romanized](https://en.wikipedia.org/wiki/Romanization_of_Korean) form, provided solely as an approximate pronunciation aid to non-Korean speakers.
 
 Your front end will display views created from data in a [MySQL](https://dev.mysql.com/doc/refman/5.7/en/) database. You will be working with [React](https://facebook.github.io/react/), and will serve your application with a [NodeJS](https://nodejs.org/) web server, using [ExpressJS](https://expressjs.com/).
 
-**BEFORE CONTINUING you must confirm you are running MySQL version 5.7** 
+**BEFORE CONTINUING you must confirm you are running MySQL version 5.7**
 To check the version of the installed MySQL server: on Mac run `mysql_config --version` in the terminal; on Windows run `mysql -V` in the terminal and check the value printed for `Distrib`. **If you are running something other than 5.7.x, you must speak with your Technical Mentor before you can move on.**
 
 HOW TO START THIS APP
+
 * *[Modify this section to tell graders how to start your app]*
 
 By design, this assessment contains more work than you will be able to complete in a day, so don't be concerned about not completing all of the steps below. Rather, please work on the following steps **in order**, moving on to the next step only after the one you are working on is complete. **Commit frequently** with informative messages. While there are instructions to commit at the end of each step, these should not be your only commits.
 
 ---
+
 ### Before You Begin
+
 **Complete these setup tasks**:
 
 - [ ] In your terminal, navigate to this assessment's `korean-tutor` directory and run `git remote rm origin` to prevent yourself from accidentally pushing your code during the assessment.
@@ -42,6 +43,7 @@ By design, this assessment contains more work than you will be able to complete 
 ### Step One: Display a Phrase List
 
 **Implement the following user story:**
+
 > As a learner, when I load the app, I expect to see a list of all the phrases I will learn.
 
 **Implement this user story by doing the following:**
@@ -56,11 +58,12 @@ By design, this assessment contains more work than you will be able to complete 
 ---
 
 ### Step Two: Display a Non-Functioning Flash Card
+
 **Implement the following user story:**
+
 > As a learner, I expect to use "flash cards" to practice phrases one-at-a-time.
 
 > As a learner, I expect to be able to practice multiple phrases in succession.
-
 
 **Implement this user story by doing the following:**
 
@@ -73,13 +76,14 @@ By design, this assessment contains more work than you will be able to complete 
 ---
 
 ### Step Three: Show/Hide the English Translation
+
 **Implement the following user stories:**
+
 > As a learner practicing phrases, when I see a flash card, I expect the English translation to be hidden by default.
 
 > As a learner practicing phrases, I want to reveal the English translation by clicking "Reveal Translation" on a flash card.
 
 > As a learner practicing phrases, I expect to be able to hide the English translation again after revealing it.
-
 
 **Implement these user stories by doing the following:**
 
@@ -91,7 +95,9 @@ By design, this assessment contains more work than you will be able to complete 
 ---
 
 ### Step Four: Record Learning Progress on a Phrase
+
 **Implement the following user story:**
+
 > As a learner practicing phrases, I want to record my progress in learning a phrase by clicking a button which indicates my progress
 
 > As a learner, I want to assign one of three statuses to a phrase: `Not yet`, `Almost`, and `Got it`.
@@ -111,6 +117,7 @@ By design, this assessment contains more work than you will be able to complete 
 ### Step Five: Prioritizing Phrases by their Status
 
 **Implement the following user story:**
+
 > As a learner, I want to practice the phrases I am least comfortable with, then the phrases I am moderately comfortable with.
 
 > As a confident learner, I do not wish to see phrases in Practice Mode once I have marked them with the status `Got it`.
@@ -123,6 +130,7 @@ By design, this assessment contains more work than you will be able to complete 
   - Phrases marked with the status `Not yet` should always be shown before phrases marked `Almost`
   - Phrases marked with the status `Got it` should no longer appear in Practice Mode
 - [ ] When all phrases have been marked with the status `Got it`, display a message congratulating the user for completing all of the phrases.
+
 - Take care not to alter the order in which phrases appear in the **Phrase List** view.
 
 **WHEN THIS STEP IS COMPLETE**: make a commit with the message "complete step five"
@@ -132,9 +140,11 @@ By design, this assessment contains more work than you will be able to complete 
 ### Step Six: Displaying Progress
 
 **Implement the following user story:**
+
 > As a learner, I want to see my progress expressed as I work through all of the phrases in Practice Mode, expressed as a percentage of the phrases marked with the status `Got it`.
 
 **Implement this user story by doing the following:**
+
 - [ ] Create or refactor any client-side components as necessary.
 
 **WHEN THIS STEP IS COMPLETE**: make a commit with the message "complete step six"
@@ -144,6 +154,7 @@ By design, this assessment contains more work than you will be able to complete 
 ### Step Seven: Add New Phrases
 
 **Implement the following user story:**
+
 > As a learner expanding my vocabulary, I want to add new phrases for me to practice.
 
 **Implement this user story by doing the following:**
@@ -160,6 +171,7 @@ By design, this assessment contains more work than you will be able to complete 
 ### Step Eight: Spaced Repetition
 
 **Implement the following user story:**
+
 > As a learner, I want phrases to appear in an order consistent with the [Spaced Repetition](https://en.wikipedia.org/wiki/Spaced_repetition) learning technique.
 
 **Implement this user story by doing the following:**
@@ -175,6 +187,7 @@ By design, this assessment contains more work than you will be able to complete 
 ### Step Nine: Add Categories for Phrases
 
 **Implement the following user stories:**
+
 > As a learner, I want to separate my collection of phrases into several categories, like "Things you say in a Taxi" or "Things you say in a restaurant"
 
 > As a learner, I wish to track my progress through the phrases in each category independently.
@@ -190,25 +203,5 @@ By design, this assessment contains more work than you will be able to complete 
 
 ---
 
-## Available Resources
 
-* [Postman](https://www.getpostman.com/)
-* [ReactJS Docs](https://facebook.github.io/react/)
-* [Webpack Docs](https://webpack.github.io/docs/)
-* [Babel Docs](https://babeljs.io/docs/setup/)
-* [jQuery Docs](https://jquery.com/)
-* [Underscore Docs](http://underscorejs.org/)
-* [BluebirdJS Docs](http://bluebirdjs.com/)
-* [NodeJS Docs](https://nodejs.org/)
-* [ExpressJS Docs](https://expressjs.com/)
-* [Body Parser Middleware Docs](https://github.com/expressjs/body-parser)
-* [MySQL Doc](https://dev.mysql.com/doc/refman/5.7/en/)
-* [MySQL npm package Docs](https://www.npmjs.com/package/mysql)
-* [MySQL Cheat Sheet](http://www.cheat-sheets.org/sites/sql.su/)
-* Docs for any npm packages you might use
-* [MDN](https://developer.mozilla.org/)
-* [Stack Overflow](http://stackoverflow.com/)
-* [Google Search](https://google.com) to search for the correct page on any of the documentation above
-* The Wikipedia articles which are _directly linked_ from this README (do not follow subsequent links)
-* [SM2 spaced-repetition algorithm](https://www.supermemo.com/english/ol/sm2.htm)
 * [Naver Translate](http://translate.naver.com) if you wish to try adding some new phrases to your dataset.
