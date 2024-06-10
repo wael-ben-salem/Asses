@@ -1,12 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Practice = ({ phrases }) => {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [showTranslation, setShowTranslation] = useState(false);
+  const [completed, setCompleted] = useState(false);
+
+  useEffect(() => {
+    // Check if all phrases are marked as "Got it"
+    const allGotIt = phrases.every((phrase) => phrase.status === "Got it");
+    if (allGotIt) {
+      setCompleted(true);
+    }
+  }, [phrases]);
+
+  const prioritizePhrases = (a, b) => {
+    if (a.status === "Got it") return 1;
+    if (b.status === "Got it") return -1;
+    if (a.status === "Not yet" && b.status === "Almost") return -1;
+    if (a.status === "Almost" && b.status === "Not yet") return 1;
+    return 0;
+  };
 
   const handleNextPhrase = () => {
-    setPhraseIndex((prevIndex) => prevIndex + 1);
-    setShowTranslation(false);
+    const nextIndex = phrases.findIndex((phrase, index) => {
+      return index > phraseIndex && phrase.status !== "Got it";
+    });
+
+    if (nextIndex === -1) {
+      // If no more phrases to practice
+      setCompleted(true);
+    } else {
+      setPhraseIndex(nextIndex);
+      setShowTranslation(false);
+    }
   };
 
   const handleToggleTranslation = () => {
@@ -32,11 +58,17 @@ const Practice = ({ phrases }) => {
     }
   };
 
+  if (completed) {
+    return <div>Congratulations! You've mastered all the phrases.</div>;
+  }
+
   if (phrases.length === 0) {
     return <div>No phrases available</div>;
   }
 
-  const phrase = phrases[phraseIndex];
+  // Sort phrases based on priority
+  const sortedPhrases = [...phrases].sort(prioritizePhrases);
+  const phrase = sortedPhrases[phraseIndex];
 
   return (
     <div>
