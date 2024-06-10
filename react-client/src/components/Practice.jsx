@@ -4,8 +4,15 @@ const Practice = ({ phrases }) => {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [showTranslation, setShowTranslation] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    // Calculate progress percentage
+    const gotItCount = phrases.filter((phrase) => phrase.status === "Got it").length;
+    const totalPhrases = phrases.length;
+    const progressPercentage = (gotItCount / totalPhrases) * 100;
+    setProgress(progressPercentage);
+
     // Check if all phrases are marked as "Got it"
     const allGotIt = phrases.every((phrase) => phrase.status === "Got it");
     if (allGotIt) {
@@ -73,6 +80,13 @@ const Practice = ({ phrases }) => {
   return (
     <div>
       <h1>Practice</h1>
+      <div className="progress-bar">
+        Progress: {progress.toFixed(2)}%
+        <div
+          className="progress-bar-fill"
+          style={{ width: `${progress}%` }}
+        ></div>
+      </div>
       <div className="card">
         <div className="card-kor">{phrase.kor}</div>
         <div className="card-rom">{phrase.rom}</div>
