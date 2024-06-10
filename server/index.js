@@ -8,9 +8,7 @@ const PORT = 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
-// UNCOMMENT TO START
- app.use(express.static(__dirname + '/../react-client/dist'));
+app.use(express.static(__dirname + '/../react-client/dist'));
 
 app.get('/api/phrases', (req, res) => {
   db.getAllPhrases((err, phrases) => {
@@ -21,7 +19,17 @@ app.get('/api/phrases', (req, res) => {
   });
 });
 
-//TODO - add additional route handlers as necessary
+app.patch('/api/phrases/:id', (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  db.updatePhrase(id, status, (err, result) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    res.json(result);
+  });
+});
+
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);

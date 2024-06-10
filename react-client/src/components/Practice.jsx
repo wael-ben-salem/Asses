@@ -9,15 +9,33 @@ const Practice = ({ phrases }) => {
     setShowTranslation(false);
   };
 
-  const handleStatusClick = () => {
-    handleNextPhrase();
-  };
   const handleToggleTranslation = () => {
     setShowTranslation(!showTranslation);
   };
+
+  const handleStatusClick = async (status) => {
+    try {
+      const phraseId = phrases[phraseIndex].id;
+      const response = await fetch(`/api/phrases/${phraseId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update status");
+      }
+      handleNextPhrase();
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
+
   if (phrases.length === 0) {
     return <div>No phrases available</div>;
   }
+
   const phrase = phrases[phraseIndex];
 
   return (
@@ -35,9 +53,9 @@ const Practice = ({ phrases }) => {
         <button onClick={handleToggleTranslation}>
           {showTranslation ? "Hide Translation" : "Reveal Translation"}
         </button>
-        <button onClick={handleStatusClick}>Not yet</button>
-        <button onClick={handleStatusClick}>Almost</button>
-        <button onClick={handleStatusClick}>Got it</button>
+        <button onClick={() => handleStatusClick("Not yet")}>Not yet</button>
+        <button onClick={() => handleStatusClick("Almost")}>Almost</button>
+        <button onClick={() => handleStatusClick("Got it")}>Got it</button>
       </div>
     </div>
   );
