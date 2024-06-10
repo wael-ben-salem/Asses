@@ -20,6 +20,9 @@ const App = () => {
   useEffect(() => {
     test();
   }, []);
+
+
+  
   return (
     <div>
       <div className="nav">

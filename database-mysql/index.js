@@ -21,9 +21,21 @@ const updatePhrase = function (phraseId, newStatus, callback) {
     }
     callback(null, results);
   });
-}
+};
+
+const addPhrase = async (kor, eng, rom, status,) => {
+  const query =
+    "INSERT INTO phrases (kor, eng, rom, status) VALUES (?, ?, ?, ?)";
+  connection.query(query, [kor, eng, rom, status], (err, results) => {
+    if (err) {
+      return err;
+    }
+    return  results;
+  });
+};
 
 module.exports = {
   getAllPhrases,
-  updatePhrase
+  updatePhrase,
+  addPhrase,
 };
