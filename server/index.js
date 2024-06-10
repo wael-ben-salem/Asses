@@ -10,10 +10,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // UNCOMMENT TO START
-// app.use(express.static(__dirname + '/../react-client/dist'));
+ app.use(express.static(__dirname + '/../react-client/dist'));
 
 app.get('/api/phrases', (req, res) => {
-  //TODO - your code here!
+  db.getAllPhrases((err, phrases) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    res.json(phrases);
+  });
 });
 
 //TODO - add additional route handlers as necessary
