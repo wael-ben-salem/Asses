@@ -42,7 +42,7 @@ const App = () => {
         {view === "phrases" ? (
           <PhraseList phrases={phrases} loader={loader} />
         ) : (
-          <Practice />
+          <Practice phrases={phrases}/>
         )}
       </div>
     </div>

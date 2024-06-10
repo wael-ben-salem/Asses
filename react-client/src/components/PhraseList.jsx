@@ -26,8 +26,6 @@ return (
       </div>  
   </div>
 );
-} 
+};
+
 export default PhraseList;
-
-
-
