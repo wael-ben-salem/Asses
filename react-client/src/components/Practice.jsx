@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-interface Phrase {
-  id: number;
-  korean: string;
-  romanization: string;
-  english: string;
-}
+
 
 const Practice = () => {
    const [phrases, setPhrases] = useState([]);
