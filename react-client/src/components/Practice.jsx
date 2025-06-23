@@ -20,8 +20,19 @@ const Practice = () => {
   }, []);
 
   const handleNext = () => {
+    
     setCurrentIndex(prev => (prev + 1) % phrases.length);
     setShowTranslation(false);
+  };
+
+  const handleStatusClick = (status) => {
+    if (!current) return;
+
+    axios.patch(`/api/phrases/${current.id}`, { status })
+      .then(() => {
+        handleNext();
+      })
+      .catch(err => console.error('Erreur mise à jour statut:', err));
   };
 
   if (phrases.length === 0) {
@@ -43,9 +54,9 @@ const Practice = () => {
         >
           {showTranslation ? current.eng : "Reveal Translation"}
         </div>
-        <button onClick={handleNext}>Not yet</button>
-        <button onClick={handleNext}>Almost</button>
-        <button onClick={handleNext}>Got it</button>
+        <button onClick={() => handleStatusClick('Not yet')}>Not yet</button>
+        <button onClick={() => handleStatusClick('Almost')}>Almost</button>
+        <button onClick={() => handleStatusClick('Got it')}>Got it</button>
       </div>
     </div>
   );
