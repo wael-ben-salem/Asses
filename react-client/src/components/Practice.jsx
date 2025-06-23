@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import FormPractice from '../Form/FormPrac.jsx';
+
+
 
 
 
@@ -31,12 +34,21 @@ const Practice = () => {
     });
 
 
-  const handleNext = () => {
-    
-    setCurrentIndex(prev => (prev + 1) % filteredPhrases.length);
-    setShowTranslation(false);
-  };
+const handleNext = () => {
+  if (filteredPhrases.length === 0) return; 
+  setCurrentIndex(prev => (prev + 1) % filteredPhrases.length);
+  setShowTranslation(false);
+};
   
+    const fetchPhrases = () => {
+    axios.get('/api/phrases')
+      .then(res => setPhrases(res.data))
+      .catch(console.error);
+  };
+
+  useEffect(() => {
+    fetchPhrases();
+  }, []);
 
   const handleStatusClick = (status) => {
     if (!current) return;
@@ -58,17 +70,29 @@ const Practice = () => {
 
 
   if (filteredPhrases.length === 0) {
-    return (
-      <div className="text-center mt-10 text-green-600 text-xl font-semibold">
+  return (
+    <div className="text-center mt-10 text-green-600 text-xl font-semibold">
       Félicitations, vous avez maîtrisé toutes les phrases !
       <div style={{ marginBottom: '20px', fontWeight: 'bold' }}>
-      Progression : {progress}% des phrases maîtrisées
-    </div>
+        Progression : {progress}% des phrases maîtrisées
       </div>
-    );
-  }
+      <FormPractice onAdd={fetchPhrases} />
+    </div>
+  );
+}
+
 
   const current = filteredPhrases[currentIndex];
+if (!current) {
+  return <div>Chargement...</div>;  
+}
+
+
+
+
+
+
+
 
   return (
     <div>
@@ -90,6 +114,8 @@ const Practice = () => {
         <button onClick={() => handleStatusClick('Almost')}>Almost</button>
         <button onClick={() => handleStatusClick('Got it')}>Got it</button>
       </div>
+      <FormPractice onAdd={fetchPhrases} />
+
     </div>
   );
 };

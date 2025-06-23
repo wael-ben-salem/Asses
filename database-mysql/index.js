@@ -14,6 +14,18 @@ const getAllPhrases = function(callback) {
   });
 };
 
+const addPhrase = (newPhrase, callback) => {
+  const { kor, rom, eng } = newPhrase;
+  const query = 'INSERT INTO phrases (kor, rom, eng, status) VALUES (?, ?, ?, "Not yet")';
+  connection.query(query, [kor, rom, eng], (err, results) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, results);
+    }
+  });
+};
+
 const updatePhrase = (id, status, callback) => {
   const query = 'UPDATE phrases SET status = ? WHERE id = ?';
   connection.query(query, [status, id], (err, results) => {
@@ -29,5 +41,6 @@ const updatePhrase = (id, status, callback) => {
 
 module.exports = {
   getAllPhrases,
+  addPhrase,
   updatePhrase
 };

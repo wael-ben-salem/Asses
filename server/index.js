@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const db = require('../database-mysql');
-const { getAllPhrases ,updatePhrase } = require('../database-mysql');
+const { getAllPhrases ,updatePhrase ,addPhrase} = require('../database-mysql');
 
 
 const app = express();
@@ -20,6 +20,24 @@ app.get('/api/phrases', (req, res) => {
       res.status(400).send('Erreur serveur');
     } else {
       res.json(results);
+    }
+  });
+});
+
+
+
+app.post('/api/phrases', (req, res) => {
+  const newPhrase = req.body;
+
+  if (!newPhrase.kor || !newPhrase.rom || !newPhrase.eng) {
+    return res.status(400).send('Champs manquants');
+  }
+
+  addPhrase(newPhrase, (err, results) => {
+    if (err) {
+      res.status(500).send('Erreur serveur lors de l\'ajout');
+    } else {
+      res.status(200).json({ message: 'Phrase ajoutée avec succès', id: results.insertId });
     }
   });
 });
