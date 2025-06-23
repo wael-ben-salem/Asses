@@ -19,11 +19,21 @@ const Practice = () => {
       });
   }, []);
 
+
+  const filteredPhrases = phrases
+    .filter(phrase => phrase.status !== "Got it")
+    .sort((a, b) => {
+      const order = { "Not yet": 0, "Almost": 1 };
+      return order[a.status] - order[b.status];
+    });
+
+
   const handleNext = () => {
     
-    setCurrentIndex(prev => (prev + 1) % phrases.length);
+    setCurrentIndex(prev => (prev + 1) % filteredPhrases.length);
     setShowTranslation(false);
   };
+  
 
   const handleStatusClick = (status) => {
     if (!current) return;
@@ -34,12 +44,22 @@ const Practice = () => {
       })
       .catch(err => console.error('Erreur mise à jour statut:', err));
   };
+  
 
   if (phrases.length === 0) {
     return <div>Loading phrases...</div>;
   }
 
-  const current = phrases[currentIndex];
+  
+  if (filteredPhrases.length === 0) {
+    return (
+      <div className="text-center mt-10 text-green-600 text-xl font-semibold">
+      Félicitations, vous avez maîtrisé toutes les phrases !
+      </div>
+    );
+  }
+
+  const current = filteredPhrases[currentIndex];
 
   return (
     <div>
