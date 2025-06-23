@@ -8,6 +8,9 @@ const Practice = () => {
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showTranslation, setShowTranslation] = useState(false);
+  const total = phrases.length;
+  const gotItCount = phrases.filter(p => p.status === "Got it").length;
+  const progress = total === 0 ? 0 : Math.round((gotItCount / total) * 100);
 
   useEffect(() => {
     axios.get('/api/phrases') 
@@ -40,6 +43,9 @@ const Practice = () => {
 
     axios.patch(`/api/phrases/${current.id}`, { status })
       .then(() => {
+          setPhrases(prev =>
+          prev.map(p => p.id === current.id ? Object.assign({}, p, { status }) : p)
+      );
         handleNext();
       })
       .catch(err => console.error('Erreur mise à jour statut:', err));
@@ -50,11 +56,14 @@ const Practice = () => {
     return <div>Loading phrases...</div>;
   }
 
-  
+
   if (filteredPhrases.length === 0) {
     return (
       <div className="text-center mt-10 text-green-600 text-xl font-semibold">
       Félicitations, vous avez maîtrisé toutes les phrases !
+      <div style={{ marginBottom: '20px', fontWeight: 'bold' }}>
+      Progression : {progress}% des phrases maîtrisées
+    </div>
       </div>
     );
   }
@@ -64,6 +73,9 @@ const Practice = () => {
   return (
     <div>
       <h1>Practice</h1>
+      <div style={{ marginBottom: '20px', fontWeight: 'bold' }}>
+      Progression : {progress}% des phrases maîtrisées
+    </div>
       <div className="card">
         <div className="card-kor">{current.kor}</div>
         <div className="card-rom">{current.rom}</div>
