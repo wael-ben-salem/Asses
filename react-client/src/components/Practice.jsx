@@ -4,6 +4,22 @@ import FormPractice from '../Form/FormPrac.jsx';
 
 
 
+function sm2(quality, repetitions, interval, ef) {
+  if (quality < 3) {
+    repetitions = 0;
+    interval = 1;
+  } else {
+    if (repetitions === 0) interval = 1;
+    else if (repetitions === 1) interval = 6;
+    else interval = Math.round(interval * ef);
+    repetitions++;
+  }
+
+  ef = ef + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
+  if (ef < 1.3) ef = 1.3;
+
+  return { repetitions, interval, ef };
+}
 
 
 const Practice = () => {
@@ -25,13 +41,22 @@ const Practice = () => {
       });
   }, []);
 
-
+const today = new Date();
+/*
   const filteredPhrases = phrases
     .filter(phrase => phrase.status !== "Got it")
     .sort((a, b) => {
       const order = { "Not yet": 0, "Almost": 1 };
       return order[a.status] - order[b.status];
     });
+
+*/
+
+const filteredPhrases = phrases
+  .filter(phrase => new Date(phrase.dueDate) <= today)
+  .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+
+
 
 
 const handleNext = () => {
@@ -50,6 +75,46 @@ const handleNext = () => {
     fetchPhrases();
   }, []);
 
+
+
+
+
+//step Eight :
+  const current = filteredPhrases[currentIndex];
+
+
+const mapStatusToQuality = {
+  'Not yet': 0,
+  'Almost': 3,
+  'Got it': 5,
+};
+
+const handleStatusClick = (status) => {
+  if (!current) return;
+
+const quality = mapStatusToQuality[status] !== undefined ? mapStatusToQuality[status] : 0;
+  const { repetitions = 0, interval = 0, ef = 2.5 } = current;
+
+  const result = sm2(quality, repetitions, interval, ef);
+
+  const nextDueDate = new Date();
+  nextDueDate.setDate(nextDueDate.getDate() + result.interval);
+
+  axios.patch(`/api/phrases/${current.id}`, {
+    status,
+    repetitions: result.repetitions,
+    interval: result.interval,
+    ef: result.ef,
+    dueDate: nextDueDate.toISOString(),
+  })
+    .then(() => {
+      fetchPhrases();
+      handleNext();
+    })
+    .catch(err => console.error('Erreur mise à jour statut:', err));
+};
+
+/*
   const handleStatusClick = (status) => {
     if (!current) return;
 
@@ -62,6 +127,7 @@ const handleNext = () => {
       })
       .catch(err => console.error('Erreur mise à jour statut:', err));
   };
+  */
   
 
   if (phrases.length === 0) {
@@ -82,7 +148,6 @@ const handleNext = () => {
 }
 
 
-  const current = filteredPhrases[currentIndex];
 if (!current) {
   return <div>Chargement...</div>;  
 }

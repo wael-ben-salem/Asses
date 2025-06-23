@@ -13,6 +13,15 @@ CREATE TABLE phrases (
   PRIMARY KEY (id)
 );
 
+
+/*
+ALTER TABLE phrases
+ADD COLUMN `interval` INTEGER DEFAULT 0,
+ADD COLUMN repetitions INTEGER DEFAULT 0,
+ADD COLUMN ef FLOAT DEFAULT 2.5,
+ADD COLUMN dueDate DATETIME DEFAULT CURRENT_TIMESTAMP;
+*/
+
 /*  Execute this file from the command line by typing:
  *    mysql -u <USER> < schema.sql
  *    OR
