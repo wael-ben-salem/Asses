@@ -44,13 +44,13 @@ app.post('/api/phrases', (req, res) => {
 
 app.patch('/api/phrases/:phraseId', (req, res) => {
   const phraseId = req.params.phraseId;
-  const { status } = req.body;
+  const { status, interval, repetitions, ef, dueDate } = req.body;
 
   if (!status) {
     return res.status(400).send('Status is required');
   }
 
-  updatePhrase(phraseId, status, (err, results) => {
+  updatePhrase(phraseId, { status, interval, repetitions, ef, dueDate }, (err, results) => {
     if (err) {
       res.status(500).send('Erreur serveur lors de la mise à jour');
     } else {
