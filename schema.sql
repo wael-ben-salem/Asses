@@ -37,6 +37,20 @@ ADD COLUMN dueDate DATETIME DEFAULT CURRENT_TIMESTAMP;
  *  please talk to a proctor.
 */
 
+
+/*
+CREATE TABLE categories (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL UNIQUE
+);
+
+ALTER TABLE phrases
+ADD COLUMN category_id INT NULL,
+ADD CONSTRAINT fk_category
+  FOREIGN KEY (category_id) REFERENCES categories(id)
+  ON DELETE SET NULL;
+*/
+
 INSERT into phrases (kor, rom, eng) VALUES ("안녕하새요", "an-nyeong ha-se-yo", "Hello");
 INSERT into phrases (kor, rom, eng) VALUES ("감사합니다", "gam-sa-hab-ni-da", "Thank you");
 INSERT into phrases (kor, rom, eng) VALUES ("잠시만요", "jam-si-man-yo", "Wait a moment/Excuse me");

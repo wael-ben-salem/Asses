@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const db = require('../database-mysql');
-const { getAllPhrases ,updatePhrase ,addPhrase} = require('../database-mysql');
+const { getAllCategories, addCategory, getAllPhrases, addPhrase, updatePhrase } = require('../database-mysql');
 
 
 const app = express();
@@ -15,12 +15,10 @@ app.use(bodyParser.urlencoded({extended: true}));
  app.use(express.static(__dirname + '/../react-client/dist'));
 
 app.get('/api/phrases', (req, res) => {
-  getAllPhrases((err, results) => {
-    if (err) {
-      res.status(400).send('Erreur serveur');
-    } else {
-      res.json(results);
-    }
+  const categoryId = req.query.category;
+  getAllPhrases(categoryId, (err, results) => {
+    if (err) return res.status(500).send('Erreur serveur');
+    res.json(results);
   });
 });
 
@@ -58,6 +56,25 @@ app.patch('/api/phrases/:phraseId', (req, res) => {
     }
   });
 });
+
+//categorie 
+app.get('/api/categories', (req, res) => {
+  getAllCategories((err, results) => {
+    if (err) return res.status(500).send('Erreur serveur');
+    res.json(results);
+  });
+});
+
+
+app.post('/api/categories', (req, res) => {
+  const { name } = req.body;
+  if (!name) return res.status(400).send('Le nom est requis');
+  addCategory(name, (err, results) => {
+    if (err) return res.status(500).send('Erreur serveur');
+    res.status(201).json({ id: results.insertId, name });
+  });
+});
+
 
 //TODO - add additional route handlers as necessary
 

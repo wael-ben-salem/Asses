@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const FormPrac = ({ onAdd }) => {
@@ -6,20 +6,32 @@ const FormPrac = ({ onAdd }) => {
   const [rom, setRom] = useState('');
   const [eng, setEng] = useState('');
   const [error, setError] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+
+  useEffect(() => {
+  axios.get('/api/categories')
+    .then(res => setCategories(res.data))
+    .catch(err => console.error('Erreur fetch catégories :', err));
+}, []);
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!kor || !rom || !eng) {
+  if (!kor || !rom || !eng || !selectedCategory) {
       setError('Tous les champs sont requis.');
       return;
     }
 
-    axios.post('/api/phrases', { kor, rom, eng })
+  axios.post('/api/phrases', { kor, rom, eng, category_id: selectedCategory })
       .then(() => {
-        onAdd();  // rafraîchir la liste des phrases
+        onAdd();  
         setKor('');
         setRom('');
         setEng('');
+        setSelectedCategory('');
         setError('');
       })
       .catch(() => setError('Erreur lors de l\'ajout'));
@@ -28,6 +40,16 @@ const FormPrac = ({ onAdd }) => {
   return (
     <form onSubmit={handleSubmit} style={{ marginTop: '30px' }}>
       <h2>Ajouter une nouvelle phrase</h2>
+      <select
+  value={selectedCategory}
+  onChange={e => setSelectedCategory(e.target.value)}
+>
+  <option value="">-- Choisir une catégorie --</option>
+  {categories.map(cat => (
+    <option key={cat.id} value={cat.id}>{cat.name}</option>
+  ))}
+</select>
+
       <input
         type="text"
         value={kor}
