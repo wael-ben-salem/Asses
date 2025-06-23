@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-interface Phrase {
-  id: number;
-  korean: string;
-  romanization: string;
-  english: string;
-}
+
 
 const Practice = () => {
    const [phrases, setPhrases] = useState([]);
   
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showTranslation, setShowTranslation] = useState(false);
 
   useEffect(() => {
     axios.get('/api/phrases') 
@@ -25,6 +21,7 @@ const Practice = () => {
 
   const handleNext = () => {
     setCurrentIndex(prev => (prev + 1) % phrases.length);
+    setShowTranslation(false);
   };
 
   if (phrases.length === 0) {
@@ -39,8 +36,13 @@ const Practice = () => {
       <div className="card">
         <div className="card-kor">{current.kor}</div>
         <div className="card-rom">{current.rom}</div>
-        <div className="card-eng">{current.eng}</div>
-
+        <div
+          className="card-eng"
+          onClick={() => setShowTranslation(!showTranslation)}
+          style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+        >
+          {showTranslation ? current.eng : "Reveal Translation"}
+        </div>
         <button onClick={handleNext}>Not yet</button>
         <button onClick={handleNext}>Almost</button>
         <button onClick={handleNext}>Got it</button>
